@@ -3,35 +3,34 @@
 #include<stdlib.h>
 #define MAX_Ime 50
 #define MAX_Prez 50
-#define MAX_Bodovi 100 //*maksimalan broj bodova na ispitu *//
+#define MAX_Bodovi 100
 
 typedef struct Student
 {
 	char Ime[MAX_Ime];
 	char Prez[MAX_Prez];
-	int bodovi;
+	int Bodovi;
 }Student;
 
-int brojredakauDat()	// *broji redke u datoteci *//
+int brojredakauDat()
 {
-	FILE *fp = fopen("studenti.txt", "r");
+	FILE* fp = fopen("studenti.txt", "r");
 
 	if (fp == NULL)
 	{
-		printf("GREŠKA POKUŠAJ PONOVNO!!!");
+		printf("Greska pokusaj ponovno!!");
 		return 1;
 	}
 
 	int br = 0;
 	char Ime[MAX_Ime];
 	char Prez[MAX_Prez];
-	int bodovi;
+	int Bodovi;
 
-	while (fscanf(fp, "%s %s %d", Ime, Prez, &bodovi) == 3)		//* pokušava èitati 3 vrijednosti po redu *//
+	while(fscanf(fp, "%s %s %d", Ime, Prez, &Bodovi) == 3)
 	{
 		br++;
 	}
-
 	fclose(fp);
 
 	return br;
@@ -40,43 +39,45 @@ int brojredakauDat()	// *broji redke u datoteci *//
 int main()
 {
 	int i;
-	double relativni;
-	int brojStudenata = brojredakauDat();	//*koliko ima studenata *//
+	double relativno;
+	int brojstudenata = brojredakauDat();
 
-	if (brojStudenata <= 0)
+	if (brojstudenata <= 0)
 	{
-		printf("Datoteka je prazna.\n");
+		printf("Greska");
 		return 1;
 	}
 
-	Student* studenti = (Student*)malloc(brojStudenata * sizeof(Student));
+	
+	Student* studenti = (Student*)malloc(brojstudenata * sizeof(Student));
 	if (studenti == NULL)
 	{
-		printf("Greska!!!");
+		printf("Greska!!");
 		return 1;
 	}
 
 	FILE* fp = fopen("studenti.txt", "r");
 	if (fp == NULL)
 	{
-		printf("Greska!!!");
+		printf("Greska pokusaj ponovno!!");
 		return 1;
 	}
 
-	for (i = 0; i < brojStudenata; i++)
+	for (i = 0; i < brojstudenata; i++)
 	{
-		fscanf(fp, "%s %s %d", studenti[i].Ime, studenti[i].Prez, &studenti[i].bodovi);
+		fscanf(fp, "%s %s %d", studenti[i].Ime, studenti[i].Prez, studenti[i].Bodovi);
 	}
+
 	fclose(fp);
 
 	printf("IME\t\tPREZIME\t\tAPSOLUTNI\t\tRELATIVNI(%%)\n");
 
-	for (i = 0; i < brojStudenata; i++)
+	for (i = 0; i < brojstudenata; i++)
 	{
-		relativni = ((double)studenti[i].bodovi / MAX_Bodovi) * 100;
-		printf("%s\t\t%s\t\t%d\t\t%.2f\n", studenti[i].Ime, studenti[i].Prez, studenti[i].bodovi, relativni);
+		relativno = ((double)studenti[i].Bodovi / MAX_Bodovi) * 100;
+		printf("%s\t\t%s\t\t%d\t\t%.2f\n", studenti[i].Ime, studenti[i].Prez, studenti[i].Bodovi, relativno);
 	}
 
-	
 	return 0;
 }
+
