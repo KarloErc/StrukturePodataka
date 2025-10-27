@@ -37,6 +37,7 @@ int InputFront(char*, Position);
 int Sort(Position);
 int WriteInFile(Position);
 int ReadFile(Position);
+int DeleteAll(Position);
 
 int main()
 {
@@ -80,8 +81,10 @@ int main()
 
 	WriteInFile(Head.Next);
 
-	printf("Read from file:\n");
-	ReadFile(Head.Next);
+	DeleteAll(&Head);
+
+	printf("\nRead from file:\n");
+	ReadFile(&Head);
 	Print(Head.Next);
 
 	return 0;
@@ -272,7 +275,7 @@ int WriteInFile(Position P)
 	}
 	fclose(fp);
 
-	printf("The data is written to the file.");
+	printf("\nThe data is written to the file.\n");
 
 	return 0;
 }
@@ -288,20 +291,48 @@ int ReadFile(Position P)
 		return -1;
 	}
 
-	while (!feof)
+	Position Last = P; //pokazivac na kraj postojece liste
+	while (Last->Next != NULL)
+		Last = Last->Next;
+
+	while (1)
 	{
 		q = (Position)malloc(sizeof(Person));
-		if (fscanf(fp, "%s %s %d", q->Name, q->Surname, &q->Birth) == 3) {
-			q->Next = P->Next;
-			P->Next = q;
+		if (q == NULL)
+		{
+			printf("Memory allocation error.\n");
+			fclose(fp);
+			return -1;
 		}
-		else {
+
+		if (fscanf(fp, "%s %s %d", q->Name, q->Surname, &q->Birth) != 3)
+		{
 			free(q);
 			break;
 		}
+
+		q->Next = NULL; //bit ce zadnji u listi
+		Last->Next = q; //povezuje stari cvor s novim cvorom
+		Last = q;
 	}
+
 	fclose(fp);
-	printf("Data loaded from file.\n");
+	printf("\nData loaded from file.\n");
+
+	return 0;
+}
+//izbrisi sve
+int DeleteAll(Position P)
+{
+	Position temp;
+
+	while (P->Next != NULL)
+	{
+		temp = P->Next;
+		P->Next = temp->Next;
+
+		free(temp);
+	}
 
 	return 0;
 }
