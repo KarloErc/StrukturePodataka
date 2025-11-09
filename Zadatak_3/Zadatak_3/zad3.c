@@ -85,7 +85,6 @@ int main()
 
 	printf("\nRead from file:\n");
 	ReadFile(&Head);
-	Print(Head.Next);
 
 	return 0;
 }
@@ -291,31 +290,11 @@ int ReadFile(Position P)
 		return -1;
 	}
 
-	Position Last = P; //pokazivac na kraj postojece liste
-	while (Last->Next != NULL)
-		Last = Last->Next;
-
-	while (1)
+	while (fscanf(fp,"%s %s %d", P->Name, P->Surname, &P->Birth) == 3) 
 	{
-		q = (Position)malloc(sizeof(Person));
-		if (q == NULL)
-		{
-			printf("Memory allocation error.\n");
-			fclose(fp);
-			return -1;
-		}
-
-		if (fscanf(fp, "%s %s %d", q->Name, q->Surname, &q->Birth) != 3)
-		{
-			free(q);
-			break;
-		}
-
-		q->Next = NULL; //bit ce zadnji u listi
-		Last->Next = q; //povezuje stari cvor s novim cvorom
-		Last = q;
+		printf("%s %s %d\n", P->Name, P->Surname, P->Birth);
 	}
-
+	
 	fclose(fp);
 	printf("\nData loaded from file.\n");
 
