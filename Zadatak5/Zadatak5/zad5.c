@@ -54,6 +54,7 @@ int Pop(Position P)
 	temp = P->Next;
 	Number = temp->El;
 	P->Next = temp->Next;
+	temp->Next = NULL;	//da ne izgubimo memoriju
 	free(temp);
 
 	return Number;
