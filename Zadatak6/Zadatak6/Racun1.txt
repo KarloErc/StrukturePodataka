@@ -1,0 +1,5 @@
+2024-11-23
+Proizvod4, 32, 11.5
+Proizvod1, 11, 3.5
+Proizvod3, 7, 10
+Proizvod2, 14, 7.5
