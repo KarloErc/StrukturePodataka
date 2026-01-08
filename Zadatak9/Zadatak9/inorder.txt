@@ -1,0 +1,4 @@
+Inorder after insert:
+77 68 64 54 47 45 44 35 25 14 
+Inorder after replace:
+0 195 54 0 412 0 45 114 0 459 
