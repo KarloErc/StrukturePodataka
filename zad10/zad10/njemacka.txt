@@ -1,0 +1,3 @@
+Munchen,1512000	
+Berlin,	1892000
+Hamburg,1892000
